@@ -4,7 +4,9 @@ import com.fleetmanagementapi.api.model.entities.Trajectory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.Date;
@@ -20,4 +22,8 @@ public interface TrajectoryRepository  extends JpaRepository<Trajectory, Integer
 
     @Query(value = "SELECT * FROM public.trajectories WHERE taxi_id = ?1 ORDER BY date LIMIT 1", nativeQuery = true)
     List<Trajectory> findLastTrajectory(Integer taxiId);
+
+    @Modifying
+    @Query("DELETE FROM Trajectory t WHERE t.taxi.id = :taxiId")
+    void deleteByTaxiId(@Param("taxiId") Integer taxiId);
 }
