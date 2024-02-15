@@ -23,7 +23,8 @@ public interface TrajectoryRepository  extends JpaRepository<Trajectory, Integer
     @Query(value = "SELECT * FROM public.trajectories WHERE taxi_id = ?1 ORDER BY date LIMIT 1", nativeQuery = true)
     List<Trajectory> findLastTrajectory(Integer taxiId);
 
-    @Modifying
-    @Query("DELETE FROM Trajectory t WHERE t.taxi.id = :taxiId")
-    void deleteByTaxiId(@Param("taxiId") Integer taxiId);
+
+    @Query("SELECT t FROM Trajectory t WHERE t.taxi.id = ?1")
+    List<Trajectory> findByTaxiId(Integer taxiId);
+
 }

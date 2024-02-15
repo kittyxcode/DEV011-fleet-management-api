@@ -1,6 +1,7 @@
 package com.fleetmanagementapi.api.services.impl;
 
 import com.fleetmanagementapi.api.model.entities.Taxi;
+import com.fleetmanagementapi.api.model.entities.Trajectory;
 import com.fleetmanagementapi.api.model.repository.TaxiRepositoryJPA;
 import com.fleetmanagementapi.api.model.repository.TrajectoryRepository;
 import com.fleetmanagementapi.api.services.ITaxi;
@@ -37,14 +38,19 @@ public class TaxiImpl implements ITaxi {
     @Override
     @Transactional
     public void delete(Integer id) {
-        // Verificar si el taxi existe antes de eliminar
-        if (taxiRepository.existsById(id)) {
-            // Eliminar todas las trayectorias asociadas al taxi
-            trajectoryRepository.deleteByTaxiId(id);
 
-            // Eliminar el taxi
-            taxiRepository.deleteById(id);
-        }
+        // Obtener el taxi que se va a eliminar
+        Taxi taxi = taxiRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Taxi no encontrado con id: " + id));
+
+        // Obtener todas las trayectorias asociadas a este taxi
+        List<Trajectory> trajectories = trajectoryRepository.findByTaxiId(id);
+
+        // Eliminar todas las trayectorias asociadas a este taxi
+        trajectoryRepository.deleteAll(trajectories);
+
+        // Borrar el taxi de la tabla de taxis
+        taxiRepository.delete(taxi);
     }
 
     @Override
