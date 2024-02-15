@@ -26,8 +26,9 @@ public class TaxiImpl implements ITaxi {
 
     @Override
     public Page<Taxi> findAllTaxis(Pageable pageable) {
-        return taxiRepository.findAll(pageable);
+        return  taxiRepository.findAll(pageable);
     }
+
 
     @Override
     public Taxi save(Taxi taxi) {
@@ -35,7 +36,9 @@ public class TaxiImpl implements ITaxi {
     }
 
     @Override
+    @Transactional
     public void delete(Integer id) {
+
         // Obtener el taxi que se va a eliminar
         Taxi taxi = taxiRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Taxi no encontrado con id: " + id));

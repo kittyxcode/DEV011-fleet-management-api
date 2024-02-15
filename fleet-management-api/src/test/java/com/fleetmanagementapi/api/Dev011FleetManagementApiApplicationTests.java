@@ -28,7 +28,9 @@ class Dev011FleetManagementApiApplicationTests {
 	@Test
 	@DisplayName("Test Endpoint Taxi")
 	void contextLoads() throws Exception {
-		mockMvc.perform(get("/api/v1/taxis?size=6418&nroPage=0")).andExpect(status().isOk()).andExpect(jsonPath("$.content").isArray());
+		mockMvc.perform(get("/api/v1/taxis?size=6418&nroPage=0"))
+				.andExpect(status().isOk())
+				.andExpect(jsonPath("$.content").isArray());
 	}
 
 	@Autowired
@@ -37,7 +39,9 @@ class Dev011FleetManagementApiApplicationTests {
 	@Test
 	@DisplayName("Test Endpoint Trajectory")
 	void contentLoads() throws  Exception{
-		mockMvc.perform(get("/api/v1/trajectories?taxiId=6418&date=2008-02-02&page=0&size=2")).andExpect((status().isOk())).andExpect(jsonPath("$.content").isArray());
+		mockMvc.perform(get("/api/v1/trajectories?taxiId=6418&date=2008-02-02&page=0&size=2"))
+				.andExpect((status().isOk()))
+				.andExpect(jsonPath("$.content").isArray());
 	}
 
 
@@ -45,7 +49,8 @@ class Dev011FleetManagementApiApplicationTests {
 	@Test
 	@DisplayName("Test Endpoint LastTrajectory")
 	void contentLoads2() throws  Exception{
-		mockMvc.perform(get("/api/v1/lasttrajectory?taxiId=6418&page=0&size=2")).andExpect((status().isOk()));
+		mockMvc.perform(get("/api/v1/lasttrajectory?taxiId=6418&page=0&size=2"))
+				.andExpect((status().isOk()));
 	}
 
 
